@@ -15,9 +15,11 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Client } from '@prisma/client';
 
+@ApiTags('Clients')
 @Controller('clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
