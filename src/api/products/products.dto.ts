@@ -5,6 +5,7 @@ import {
   IsOptional,
   MaxLength,
   IsNumber,
+  IsPositive,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -23,11 +24,13 @@ export class CreateProductDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
+  @IsPositive()
   price?: number;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
+  @IsPositive()
   stock?: number;
 
   @ApiPropertyOptional()
