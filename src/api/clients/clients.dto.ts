@@ -14,43 +14,43 @@ export class CreateClientDto {
   @IsNotEmpty()
   @MaxLength(100)
   @MinLength(2)
-  public name!: string;
+  name!: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  public phoneNumber!: string;
+  phoneNumber!: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsEmail()
   @MaxLength(100)
-  public email?: string;
+  email?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  public identityCard?: string;
+  identityCard?: string;
 }
 
 export class ClientWithId {
   @ApiProperty()
-  public id: string;
+  id: string;
 
   @ApiProperty()
-  public name: string;
+  name: string;
 
   @ApiProperty()
-  public phoneNumber: string;
+  phoneNumber: string;
 
   @ApiPropertyOptional()
-  public email: string;
+  email: string;
 
   @ApiPropertyOptional()
-  public identityCard: string;
+  identityCard: string;
 }
 
 export class UpdateClientDto extends PartialType(CreateClientDto) {}
