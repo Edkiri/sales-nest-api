@@ -19,7 +19,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         break;
       }
       case 'P2003': {
-        const status = HttpStatus.CONFLICT;
+        const status = HttpStatus.NOT_FOUND;
         const field = (exception.meta.field_name as string).split('_')[1];
         response.status(status).json({
           statusCode: status,
