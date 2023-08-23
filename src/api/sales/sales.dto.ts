@@ -13,7 +13,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateSaleDto {
   @ApiProperty({
-    type: CreateOrderDto,
+    type: [CreateOrderDto],
   })
   @IsArray()
   @ValidateNested({ each: true })
@@ -32,7 +32,7 @@ export class CreateSaleDto {
   clientId?: number;
 
   @ApiPropertyOptional({
-    type: CreatePaymentDto,
+    type: [CreatePaymentDto],
   })
   @IsOptional()
   @IsArray()
@@ -64,9 +64,13 @@ export class SaleWithId {
   @ApiPropertyOptional()
   clientId?: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    type: [PaymentWithId],
+  })
   payments?: PaymentWithId[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    type: [OrderWithId],
+  })
   orders?: OrderWithId[];
 }
