@@ -10,27 +10,49 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
-import { CreateClientDto, UpdateClientDto } from './clients.dto';
+import { ClientWithId, CreateClientDto, UpdateClientDto } from './clients.dto';
+import {
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiResponse,
+} from '@nestjs/swagger';
+import { Client } from '@prisma/client';
 
 @Controller('clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  createClient(@Body() data: CreateClientDto) {
+  @ApiCreatedResponse({
+    description: 'Client has been successfully created.',
+    type: ClientWithId,
+  })
+  createClient(@Body() data: CreateClientDto): Promise<Client> {
     return this.clientsService.createOne(data);
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    type: [ClientWithId],
+  })
   findClients() {
     return this.clientsService.findAll();
   }
 
   @Get(':clientId')
+  @ApiResponse({
+    status: 200,
+    type: ClientWithId,
+  })
   findClient(@Param('clientId', ParseIntPipe) clientId: number) {
     return this.clientsService.findOne(clientId);
   }
   @Put(':clientId')
+  @ApiResponse({
+    status: 200,
+    type: ClientWithId,
+  })
   updateClient(
     @Param('clientId', ParseIntPipe) clientId: number,
     @Body() data: UpdateClientDto,
@@ -39,6 +61,9 @@ export class ClientsController {
   }
 
   @Delete(':clientId')
+  @ApiNoContentResponse({
+    description: 'Client has been successfully deleted.',
+  })
   @HttpCode(204)
   deleteClient(@Param('clientId', ParseIntPipe) clientId: number) {
     return this.clientsService.deleteOne(clientId);

@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsString,
@@ -8,51 +9,48 @@ import {
 } from 'class-validator';
 
 export class CreateClientDto {
-  @IsOptional()
-  @IsEmail()
-  @MaxLength(100)
-  public email?: string;
-
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
   @MinLength(2)
   public name!: string;
 
-  @IsOptional()
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  identityCard?: string;
+  public phoneNumber!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  phoneNumber!: string;
-}
-
-export class UpdateClientDto {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsEmail()
   @MaxLength(100)
   public email?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  @MinLength(2)
-  public name?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  identityCard?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  phoneNumber?: string;
+  public identityCard?: string;
 }
+
+export class ClientWithId {
+  @ApiProperty()
+  public id: string;
+
+  @ApiProperty()
+  public name: string;
+
+  @ApiProperty()
+  public phoneNumber: string;
+
+  @ApiPropertyOptional()
+  public email: string;
+
+  @ApiPropertyOptional()
+  public identityCard: string;
+}
+
+export class UpdateClientDto extends PartialType(CreateClientDto) {}
