@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule } from './clients/clients.module';
+import { ClientsModule } from './api/clients/clients.module';
 import { DatabaseModule } from './database/prisma.module';
 
 @Module({
