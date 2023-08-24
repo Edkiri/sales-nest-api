@@ -21,7 +21,7 @@ export class CreateOrderDto {
   @IsOptional()
   @IsNumber()
   @IsPositive()
-  saleId?: number;
+  saleId!: number;
 }
 
 export class UpdateOrderDto extends PartialType(CreateOrderDto) {}

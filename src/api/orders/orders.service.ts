@@ -12,38 +12,11 @@ export class OrdersService {
   ) {}
 
   public async createOrder(
-    orderData: CreateOrderDto,
+    data: CreateOrderDto,
     tx?: PrismaTransactionClient | undefined,
   ): Promise<OrderWithId> {
-    if (!tx) {
-      try {
-        return await this.prisma.$transaction(async (tx) => {
-          return await this.createOrderWithTransaction(orderData, tx);
-        });
-      } catch (error) {
-        throw error;
-      } finally {
-        await this.prisma.$disconnect();
-      }
-    }
-    return this.createOrderWithTransaction(orderData, tx);
-  }
+    const prismaClient = tx || this.prisma;
 
-  public async createOrderWithTransaction(
-    orderData: CreateOrderDto,
-    tx: PrismaTransactionClient,
-  ): Promise<OrderWithId> {
-    const createdOrder = await tx.order.create({
-      data: { ...orderData, saleId: orderData.saleId },
-    });
-
-    // update product stock
-    await this.productsService.addOrder(createdOrder, tx);
-
-    // Update sale status
-    // TODO: research how to circular dependencies
-    // await this.saleService.checkSaleStatus(createdOrder.saleId, tx);
-
-    return createdOrder;
+    return await prismaClient.order.create({ data });
   }
 }
