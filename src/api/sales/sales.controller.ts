@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { SalesService } from './sales.service';
 import { CreateSaleDto, SaleWithId } from './sales.dto';
 import { PrismaService } from 'src/database/prisma.service';
@@ -17,6 +17,10 @@ export class SalesController {
   ) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: 'Sale has been successfully created.',
+    type: SaleWithId,
+  })
   async createSale(@Body() data: CreateSaleDto): Promise<SaleWithId> {
     const { orders, payments, ...saleData } = data;
     try {

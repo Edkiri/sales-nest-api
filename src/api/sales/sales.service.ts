@@ -44,6 +44,7 @@ export class SalesService {
       data: {
         status,
       },
+      include: { payments: true, orders: true },
     });
   }
 }

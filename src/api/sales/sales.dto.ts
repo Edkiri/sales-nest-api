@@ -18,7 +18,7 @@ export class CreateSaleDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CreateOrderDto)
-  orders!: CreateOrderDto[];
+  orders?: CreateOrderDto[];
 
   @ApiPropertyOptional()
   @IsOptional()
