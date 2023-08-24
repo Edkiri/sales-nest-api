@@ -33,10 +33,8 @@ export class ProductsService {
     return;
   }
 
-  async addOrder(order: OrderWithId, tx?: PrismaTransactionClient | undefined) {
-    const prismaClient = tx || this.prisma;
-
-    const product = await prismaClient.product.findFirstOrThrow({
+  async addOrder(tx: PrismaTransactionClient, order: OrderWithId) {
+    const product = await tx.product.findFirstOrThrow({
       where: { id: order.productId },
     });
 
@@ -47,7 +45,7 @@ export class ProductsService {
         `There are not enough '${product.name}' in inventory`,
       );
 
-    return await prismaClient.product.update({
+    return await tx.product.update({
       where: {
         id: order.productId,
       },

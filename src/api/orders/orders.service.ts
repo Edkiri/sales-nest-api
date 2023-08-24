@@ -13,10 +13,12 @@ export class OrdersService {
 
   public async createOrder(
     data: CreateOrderDto,
-    tx?: PrismaTransactionClient | undefined,
+    tx: PrismaTransactionClient,
   ): Promise<OrderWithId> {
-    const prismaClient = tx || this.prisma;
+    const orderCreated = await tx.order.create({ data });
 
-    return await prismaClient.order.create({ data });
+    await this.productsService.addOrder(tx, orderCreated);
+
+    return orderCreated;
   }
 }

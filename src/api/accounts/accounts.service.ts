@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { Account, Prisma } from '@prisma/client';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Account, Payment, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { UpdateAccountDto } from './accounts.dto';
+import { PrismaTransactionClient } from 'src/types';
 
 @Injectable()
 export class AccountsService {
@@ -29,5 +30,23 @@ export class AccountsService {
   async deleteOne(accountId: number): Promise<void> {
     await this.prisma.account.delete({ where: { id: accountId } });
     return;
+  }
+
+  public async addPayment(tx: PrismaTransactionClient, payment: Payment) {
+    const account = await tx.account.findUniqueOrThrow({
+      where: { id: payment.accountId },
+    });
+
+    const total = payment.rate * payment.amount;
+    const totalAccount = account.amount + total;
+
+    if (totalAccount < 0) {
+      throw new BadRequestException(`Not enough money on this account`);
+    }
+
+    return await tx.account.update({
+      where: { id: account.id },
+      data: { amount: { increment: total } },
+    });
   }
 }

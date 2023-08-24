@@ -18,7 +18,7 @@ export class SalesService {
     return await prismaClient.sale.create({ data });
   }
 
-  public async checkSaleStatus(saleId: number, tx: PrismaTransactionClient) {
+  public async checkSaleStatus(tx: PrismaTransactionClient, saleId: number) {
     const saleToCheck = await tx.sale.findFirstOrThrow({
       where: { id: saleId },
       include: { payments: true, orders: true },
