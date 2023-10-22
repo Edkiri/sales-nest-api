@@ -4,7 +4,7 @@ import { SaleWithId } from './sales.dto';
 import { PrismaTransactionClient } from 'src/types';
 import { SaleStatus } from 'src/enums/sale-status..enum';
 import { isAlmostCero } from 'src/utis/functions';
-import { Prisma } from '@prisma/client';
+import { Prisma, Sale } from '@prisma/client';
 
 @Injectable()
 export class SalesService {
@@ -46,5 +46,9 @@ export class SalesService {
       },
       include: { payments: true, orders: true },
     });
+  }
+
+  public async find(): Promise<Sale[]> {
+    return await this.prisma.sale.findMany();
   }
 }

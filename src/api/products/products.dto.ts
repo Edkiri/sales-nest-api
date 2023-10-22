@@ -6,6 +6,7 @@ import {
   MaxLength,
   IsNumber,
   IsPositive,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -13,7 +14,7 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  code!: string;
+  reference!: string;
 
   @ApiProperty()
   @IsString()
@@ -43,9 +44,13 @@ export class CreateProductDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MaxLength(100)
-  reference?: string;
+  description?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean;
 }
 
 export class ProductWithId {
@@ -53,7 +58,7 @@ export class ProductWithId {
   id: number;
 
   @ApiProperty()
-  code!: string;
+  reference!: string;
 
   @ApiProperty()
   name!: string;
@@ -68,7 +73,16 @@ export class ProductWithId {
   brand?: string;
 
   @ApiPropertyOptional()
-  reference?: string;
+  description?: string;
+
+  @ApiProperty()
+  isActive!: boolean;
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
+
+export type ProductFilters = {
+  name?: string;
+  reference?: string;
+  isActive?: string;
+};

@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Body, Get } from '@nestjs/common';
+import { ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SalesService } from './sales.service';
 import { CreateSaleDto, SaleWithId } from './sales.dto';
 import { PrismaService } from 'src/database/prisma.service';
@@ -51,5 +51,14 @@ export class SalesController {
     } finally {
       await this.prisma.$disconnect();
     }
+  }
+
+  @Get()
+  @ApiResponse({
+    status: 200,
+    type: [SaleWithId],
+  })
+  async findSales() {
+    return this.salesService.find();
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { Product, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
-import { UpdateProductDto } from './products.dto';
+import { ProductFilters, UpdateProductDto } from './products.dto';
 import { OrderWithId } from '../orders/orders.dto';
 import { PrismaTransactionClient } from 'src/types';
 
@@ -17,8 +17,23 @@ export class ProductsService {
     return this.prisma.product.create({ data });
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.prisma.product.findMany();
+  async findAll(filters: ProductFilters): Promise<Product[]> {
+    const query: Prisma.ProductWhereInput = {};
+
+    if (filters.isActive) {
+      query.isActive = filters.isActive === 'false' ? false : true;
+    }
+    if (filters.name) {
+      query.name = {
+        contains: filters.name,
+      };
+    }
+    if (filters.reference) {
+      query.reference = {
+        contains: filters.reference,
+      };
+    }
+    return this.prisma.product.findMany({ where: query });
   }
 
   async updateOne(productId: number, data: UpdateProductDto): Promise<Product> {

@@ -64,6 +64,9 @@ export class SaleWithId {
   @ApiPropertyOptional()
   clientId?: number;
 
+  @ApiProperty()
+  status!: number;
+
   @ApiPropertyOptional({
     type: [PaymentWithId],
   })

@@ -8,12 +8,14 @@ import {
   Delete,
   ParseIntPipe,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import {
   ProductWithId,
   CreateProductDto,
   UpdateProductDto,
+  ProductFilters,
 } from './products.dto';
 import {
   ApiCreatedResponse,
@@ -42,8 +44,8 @@ export class ProductsController {
     status: 200,
     type: [ProductWithId],
   })
-  findProducts() {
-    return this.productsService.findAll();
+  findProducts(@Query() query: ProductFilters) {
+    return this.productsService.findAll(query);
   }
 
   @Get(':productId')

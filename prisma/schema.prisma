@@ -40,14 +40,15 @@ model Sale {
 }
 
 model Product {
-  id        Int     @id @default(autoincrement())
-  brand     String?
-  reference String?
-  code      String  @unique
-  name      String  @unique
-  price     Float?
-  stock     Float   @default(0)
-  orders    Order[]
+  id          Int     @id @default(autoincrement())
+  brand       String?
+  description String?
+  reference   String  @unique
+  name        String  @unique
+  price       Float?
+  stock       Float   @default(0)
+  isActive    Boolean @default(true)
+  orders      Order[]
 }
 
 model Order {
