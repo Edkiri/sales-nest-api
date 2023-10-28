@@ -71,17 +71,5 @@ model Payment {
   currency Int
 
   saleId    Int
-  sale      Sale    @relation(fields: [saleId], references: [id])
-  accountId Int
-  account   Account @relation(fields: [accountId], references: [id])
-}
-
-model Account {
-  id       Int    @id @default(autoincrement())
-  name     String
-  currency Int
-  amount   Float  @default(0)
-
-  payments  Payment[]
-  deletedAt DateTime? @default(dbgenerated("null"))
+  sale      Sale @relation(fields: [saleId], references: [id])
 }

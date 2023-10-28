@@ -30,11 +30,6 @@ export class CreatePaymentDto {
   @IsPositive()
   @IsOptional()
   saleId!: number;
-
-  @ApiProperty()
-  @IsNumber()
-  @IsPositive()
-  accountId!: number;
 }
 
 export class UpdateOrderDto extends PartialType(CreatePaymentDto) {}
@@ -61,7 +56,4 @@ export class PaymentWithId {
 
   @ApiProperty()
   saleId!: number;
-
-  @ApiProperty()
-  accountId!: number;
 }
