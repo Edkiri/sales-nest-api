@@ -25,6 +25,8 @@ import {
 } from '@nestjs/swagger';
 import { Product } from '@prisma/client';
 
+export type paginationOptions = { limit?: number; offset?: number };
+
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {
@@ -44,8 +46,8 @@ export class ProductsController {
     status: 200,
     type: [ProductWithId],
   })
-  findProducts(@Query() query: ProductFilters) {
-    return this.productsService.findAll(query);
+  findProducts(@Query() filters: ProductFilters) {
+    return this.productsService.findAll(filters);
   }
 
   @Get(':productId')

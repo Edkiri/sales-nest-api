@@ -5,6 +5,8 @@ import { ProductFilters, UpdateProductDto } from './products.dto';
 import { OrderWithId } from '../orders/orders.dto';
 import { PrismaTransactionClient } from 'src/types';
 
+type FindProductsResponse = { products: Product[]; totalCount: number };
+
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
@@ -17,7 +19,7 @@ export class ProductsService {
     return this.prisma.product.create({ data });
   }
 
-  async findAll(filters: ProductFilters): Promise<Product[]> {
+  async findAll(filters: ProductFilters): Promise<FindProductsResponse> {
     const query: Prisma.ProductWhereInput = {};
 
     if (filters.isActive) {
@@ -26,6 +28,7 @@ export class ProductsService {
     if (filters.name) {
       query.name = {
         contains: filters.name,
+        mode: 'insensitive',
       };
     }
     if (filters.reference) {
@@ -33,7 +36,23 @@ export class ProductsService {
         contains: filters.reference,
       };
     }
-    return this.prisma.product.findMany({ where: query });
+
+    const paginationOptions = {
+      skip: Number(filters.offset) ?? 0,
+      take: Number(filters.limit) ?? 3,
+    };
+
+    const products = await this.prisma.product.findMany({
+      where: query,
+      ...paginationOptions,
+    });
+
+    const totalCount = await this.prisma.product.count({ where: query });
+
+    return {
+      products,
+      totalCount,
+    };
   }
 
   async updateOne(productId: number, data: UpdateProductDto): Promise<Product> {
