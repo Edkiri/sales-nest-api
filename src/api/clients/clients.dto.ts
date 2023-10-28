@@ -54,3 +54,9 @@ export class ClientWithId {
 }
 
 export class UpdateClientDto extends PartialType(CreateClientDto) {}
+
+export type ClientFilters = {
+  name?: string;
+  limit?: number;
+  offset?: number;
+};

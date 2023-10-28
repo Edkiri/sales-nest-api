@@ -8,9 +8,15 @@ import {
   Param,
   Delete,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
-import { ClientWithId, CreateClientDto, UpdateClientDto } from './clients.dto';
+import {
+  ClientFilters,
+  ClientWithId,
+  CreateClientDto,
+  UpdateClientDto,
+} from './clients.dto';
 import {
   ApiCreatedResponse,
   ApiNoContentResponse,
@@ -38,8 +44,8 @@ export class ClientsController {
     status: 200,
     type: [ClientWithId],
   })
-  findClients() {
-    return this.clientsService.findAll();
+  findClients(@Query() filters: ClientFilters) {
+    return this.clientsService.findAll(filters);
   }
 
   @Get(':clientId')
