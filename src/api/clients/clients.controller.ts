@@ -56,6 +56,7 @@ export class ClientsController {
   findClient(@Param('clientId', ParseIntPipe) clientId: number) {
     return this.clientsService.findOne(clientId);
   }
+
   @Put(':clientId')
   @ApiResponse({
     status: 200,

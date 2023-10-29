@@ -1,7 +1,15 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  ParseIntPipe,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SalesService } from './sales.service';
-import { CreateSaleDto, SaleWithId } from './sales.dto';
+import { CreateSaleDto, SaleFilters, SaleWithId } from './sales.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { OrdersService } from '../orders/orders.service';
 import { PaymentsService } from '../payments/payments.service';
@@ -58,7 +66,16 @@ export class SalesController {
     status: 200,
     type: [SaleWithId],
   })
-  async findSales() {
-    return this.salesService.find();
+  async findSales(@Query() filters: SaleFilters) {
+    return this.salesService.find(filters);
+  }
+
+  @Get(':saleId')
+  @ApiResponse({
+    status: 200,
+    type: SaleWithId,
+  })
+  findSale(@Param('saleId', ParseIntPipe) saleId: number) {
+    return this.salesService.findOne(saleId);
   }
 }

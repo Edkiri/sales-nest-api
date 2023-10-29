@@ -74,3 +74,9 @@ export class SaleWithId {
   })
   orders?: OrderWithId[];
 }
+
+export type SaleFilters = {
+  status?: number;
+  limit?: number;
+  offset?: number;
+};

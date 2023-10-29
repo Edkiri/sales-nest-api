@@ -4,6 +4,9 @@ import { PrismaTransactionClient } from 'src/types';
 import { SaleStatus } from 'src/enums/sale-status..enum';
 import { isAlmostCero } from 'src/utis/functions';
 import { Prisma, Sale } from '@prisma/client';
+import { SaleFilters } from './sales.dto';
+
+type FindSaleResponse = { sales: Sale[]; totalCount: number };
 
 @Injectable()
 export class SalesService {
@@ -47,7 +50,36 @@ export class SalesService {
     });
   }
 
-  public async find(): Promise<Sale[]> {
-    return await this.prisma.sale.findMany();
+  public async find(filters: SaleFilters): Promise<FindSaleResponse> {
+    const query: Prisma.SaleWhereInput = {};
+
+    if (filters.status) {
+      query.status = filters.status;
+    }
+
+    const paginationOptions = {
+      skip: Number(filters.offset) ?? 0,
+      take: Number(filters.limit) ?? 3,
+    };
+
+    const sales = await this.prisma.sale.findMany({
+      where: query,
+      include: { payments: true, orders: true, client: true },
+      ...paginationOptions,
+    });
+
+    const totalCount = await this.prisma.sale.count({ where: query });
+
+    return {
+      sales,
+      totalCount,
+    };
+  }
+
+  public async findOne(saleId: number): Promise<Sale> {
+    return this.prisma.sale.findUniqueOrThrow({
+      where: { id: saleId },
+      include: { payments: true, orders: true, client: true },
+    });
   }
 }
