@@ -28,16 +28,16 @@ export class SalesController {
         const sale = await this.salesService.createOne(saleData, tx);
 
         const ordersPromises = orders.map(async (order) => {
-          return this.ordersService.createOrder(
-            { ...order, saleId: sale.id },
-            tx,
-          );
+          return this.ordersService.createOrder(tx, {
+            ...order,
+            saleId: sale.id,
+          });
         });
         await Promise.all(ordersPromises);
 
-        const paymentsPromises = payments.map((payment) => {
+        const paymentsPromises = payments.map(async (paymentData) => {
           return this.paymentsService.createPayment(tx, {
-            ...payment,
+            ...paymentData,
             saleId: sale.id,
           });
         });

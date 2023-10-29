@@ -1,4 +1,4 @@
-import { IsNumber, IsEnum, IsPositive, IsOptional } from 'class-validator';
+import { IsNumber, IsEnum, IsPositive } from 'class-validator';
 import { Currencies } from '../../enums/currencies.enum';
 import { PaymentMethods } from '../../enums/payment-methods.enum';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
@@ -28,7 +28,6 @@ export class CreatePaymentDto {
   @ApiProperty()
   @IsNumber()
   @IsPositive()
-  @IsOptional()
   saleId!: number;
 }
 

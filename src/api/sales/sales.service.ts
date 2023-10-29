@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
-import { SaleWithId } from './sales.dto';
 import { PrismaTransactionClient } from 'src/types';
 import { SaleStatus } from 'src/enums/sale-status..enum';
 import { isAlmostCero } from 'src/utis/functions';
@@ -13,7 +12,7 @@ export class SalesService {
   async createOne(
     data: Prisma.SaleCreateInput,
     tx?: PrismaTransactionClient | undefined,
-  ): Promise<SaleWithId> {
+  ): Promise<Sale> {
     const prismaClient = tx || this.prisma;
     return await prismaClient.sale.create({ data });
   }

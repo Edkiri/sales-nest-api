@@ -70,6 +70,6 @@ model Payment {
   method   Int
   currency Int
 
-  saleId    Int
-  sale      Sale @relation(fields: [saleId], references: [id])
+  sale   Sale @relation(fields: [saleId], references: [id])
+  saleId Int
 }

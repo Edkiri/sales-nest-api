@@ -4,7 +4,6 @@ import {
   IsInt,
   IsOptional,
   IsArray,
-  ValidateNested,
 } from 'class-validator';
 import { CreateOrderDto, OrderWithId } from '../orders/orders.dto';
 import { Type } from 'class-transformer';
@@ -16,7 +15,6 @@ export class CreateSaleDto {
     type: [CreateOrderDto],
   })
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => CreateOrderDto)
   orders?: CreateOrderDto[];
 
@@ -36,7 +34,6 @@ export class CreateSaleDto {
   })
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => CreatePaymentDto)
   payments?: CreatePaymentDto[];
 }
