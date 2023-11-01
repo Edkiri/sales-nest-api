@@ -67,9 +67,28 @@ model Payment {
   amount Float
   rate   Float
 
-  method   Int
-  currency Int
+  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId Int
+
+  currency   Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
 
   sale   Sale @relation(fields: [saleId], references: [id])
   saleId Int
+}
+
+model Currency {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  Payment       Payment[]
+  PaymentMethod PaymentMethod[]
+}
+
+model PaymentMethod {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  currency   Currency  @relation(fields: [currencyId], references: [id])
+  currencyId Int
+  Payment    Payment[]
 }

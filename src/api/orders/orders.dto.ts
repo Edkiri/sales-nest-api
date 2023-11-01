@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNumber, IsOptional, IsPositive } from 'class-validator';
 
 export class CreateOrderDto {
@@ -17,7 +17,6 @@ export class CreateOrderDto {
   @IsPositive()
   productId!: number;
 
-  @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
   @IsPositive()

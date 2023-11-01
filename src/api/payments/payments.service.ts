@@ -8,7 +8,15 @@ export class PaymentsService {
     tx: PrismaTransactionClient,
     data: CreatePaymentDto,
   ) {
-    const createdPayment = await tx.payment.create({ data });
+    const createdPayment = await tx.payment.create({
+      data: {
+        currencyId: data.currencyId,
+        paymentMethodId: data.paymentMethodId,
+        amount: data.amount,
+        rate: data.rate,
+        saleId: data.saleId,
+      },
+    });
 
     return createdPayment;
   }

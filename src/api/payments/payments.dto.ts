@@ -1,6 +1,4 @@
-import { IsNumber, IsEnum, IsPositive } from 'class-validator';
-import { Currencies } from '../../enums/currencies.enum';
-import { PaymentMethods } from '../../enums/payment-methods.enum';
+import { IsNumber, IsPositive } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreatePaymentDto {
@@ -13,22 +11,20 @@ export class CreatePaymentDto {
   @IsPositive()
   rate!: number;
 
-  @ApiProperty({
-    enum: PaymentMethods,
-  })
-  @IsEnum(PaymentMethods)
-  method!: PaymentMethods;
-
-  @ApiProperty({
-    enum: Currencies,
-  })
-  @IsEnum(Currencies)
-  currency!: Currencies;
-
   @ApiProperty()
   @IsNumber()
   @IsPositive()
   saleId!: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  currencyId!: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  paymentMethodId!: number;
 }
 
 export class UpdateOrderDto extends PartialType(CreatePaymentDto) {}
@@ -41,17 +37,17 @@ export class PaymentWithId {
   amount!: number;
 
   @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  currencyId!: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsPositive()
+  paymentMethodId!: number;
+
+  @ApiProperty()
   rate!: number;
-
-  @ApiProperty({
-    enum: PaymentMethods,
-  })
-  method!: PaymentMethods;
-
-  @ApiProperty({
-    enum: Currencies,
-  })
-  currency!: Currencies;
 
   @ApiProperty()
   saleId!: number;
