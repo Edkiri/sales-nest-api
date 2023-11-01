@@ -29,13 +29,4 @@ export class CurrenciesController {
     const currencies = await this.currenciesService.find();
     return currencies;
   }
-
-  // @Get(':saleId')
-  // @ApiResponse({
-  //   status: 200,
-  //   type: SaleWithId,
-  // })
-  // findSale(@Param('saleId', ParseIntPipe) saleId: number) {
-  //   return this.salesService.findOne(saleId);
-  // }
 }

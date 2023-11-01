@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePaymentDto } from './payments.dto';
+import { CreatePaymentDto } from '../dtos/payments.dto';
 import { PrismaTransactionClient } from 'src/types';
 
 @Injectable()

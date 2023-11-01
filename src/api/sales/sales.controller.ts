@@ -12,7 +12,7 @@ import { SalesService } from './sales.service';
 import { CreateSaleDto, SaleFilters, SaleWithId } from './sales.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { OrdersService } from '../orders/orders.service';
-import { PaymentsService } from '../payments/payments.service';
+import { PaymentsService } from '../payments/services/payments.service';
 
 @ApiTags('Sales')
 @Controller('sales')

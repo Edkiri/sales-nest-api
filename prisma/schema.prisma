@@ -86,7 +86,7 @@ model Currency {
 
 model PaymentMethod {
   id   Int    @id @default(autoincrement())
-  name String @unique
+  name String
 
   currency   Currency  @relation(fields: [currencyId], references: [id])
   currencyId Int

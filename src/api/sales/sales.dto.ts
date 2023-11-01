@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { CreateOrderDto, OrderWithId } from '../orders/orders.dto';
 import { Type } from 'class-transformer';
-import { CreatePaymentDto, PaymentWithId } from '../payments/payments.dto';
+import { CreatePaymentDto, PaymentWithId } from '../payments/dtos/payments.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateSaleDto {
