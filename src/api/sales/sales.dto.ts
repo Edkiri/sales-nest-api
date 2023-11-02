@@ -21,7 +21,6 @@ export class CreateSaleDto {
   @ApiPropertyOptional()
   @IsOptional()
   @MaxLength(255)
-  @IsNotEmpty()
   description?: string;
 
   @ApiPropertyOptional()

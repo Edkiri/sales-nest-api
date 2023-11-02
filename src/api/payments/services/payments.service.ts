@@ -8,6 +8,7 @@ export class PaymentsService {
     tx: PrismaTransactionClient,
     data: CreatePaymentDto,
   ) {
+    console.log(data);
     const createdPayment = await tx.payment.create({
       data: {
         currencyId: data.currencyId,

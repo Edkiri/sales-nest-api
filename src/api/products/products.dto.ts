@@ -37,7 +37,6 @@ export class CreateProductDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MaxLength(100)
   brand?: string;
 

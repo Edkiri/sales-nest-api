@@ -58,8 +58,8 @@ export class SalesService {
     }
 
     const paginationOptions = {
-      skip: Number(filters.offset) ?? 0,
-      take: Number(filters.limit) ?? 3,
+      skip: Number(filters.offset) || 0,
+      take: Number(filters.limit) || 3,
     };
 
     const sales = await this.prisma.sale.findMany({
