@@ -84,6 +84,6 @@ export type ProductFilters = {
   name?: string;
   reference?: string;
   isActive?: string;
-  limit?: number;
-  offset?: number;
+  limit?: string;
+  offset?: string;
 };

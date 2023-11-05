@@ -37,14 +37,18 @@ export class ProductsService {
       };
     }
 
-    const paginationOptions = {
-      skip: Number(filters.offset) ?? 0,
-      take: Number(filters.limit) ?? 3,
+    const parsedSkip = parseInt(filters.offset, 10);
+    const parsedOffset = parseInt(filters.limit, 10);
+
+    const options = {
+      skip: isNaN(parsedSkip) ? 0 : parsedSkip,
+      take: isNaN(parsedOffset) ? 3 : parsedOffset,
     };
 
     const products = await this.prisma.product.findMany({
       where: query,
-      ...paginationOptions,
+      skip: options.skip,
+      take: options.take,
     });
 
     const totalCount = await this.prisma.product.count({ where: query });
