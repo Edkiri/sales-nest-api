@@ -76,6 +76,6 @@ export class SaleWithId {
 
 export type SaleFilters = {
   status?: number;
-  limit?: number;
-  offset?: number;
+  limit?: string;
+  offset?: string;
 };

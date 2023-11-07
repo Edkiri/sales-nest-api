@@ -57,15 +57,18 @@ export class SalesService {
       query.status = filters.status;
     }
 
-    const paginationOptions = {
-      skip: Number(filters.offset) || 0,
-      take: Number(filters.limit) || 3,
+    const parsedSkip = parseInt(filters.offset, 10);
+    const parsedOffset = parseInt(filters.limit, 10);
+
+    const options = {
+      skip: isNaN(parsedSkip) ? 0 : parsedSkip,
+      take: isNaN(parsedOffset) ? 10 : parsedOffset,
     };
 
     const sales = await this.prisma.sale.findMany({
       where: query,
       include: { payments: true, orders: true, client: true },
-      ...paginationOptions,
+      ...options,
     });
 
     const totalCount = await this.prisma.sale.count({ where: query });

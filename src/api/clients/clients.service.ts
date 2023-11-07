@@ -27,14 +27,16 @@ export class ClientsService {
       };
     }
 
-    const paginationOptions = {
-      skip: Number(filters.offset) || 0,
-      take: Number(filters.limit) || 10,
+    const parsedSkip = parseInt(filters.offset, 10);
+    const parsedOffset = parseInt(filters.limit, 10);
+    const options = {
+      skip: isNaN(parsedSkip) ? 0 : parsedSkip,
+      take: isNaN(parsedOffset) ? 10 : parsedOffset,
     };
 
     const clients = await this.prisma.client.findMany({
       where: query,
-      ...paginationOptions,
+      ...options,
     });
 
     const totalCount = await this.prisma.client.count({ where: query });

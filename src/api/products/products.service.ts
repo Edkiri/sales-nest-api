@@ -42,7 +42,7 @@ export class ProductsService {
 
     const options = {
       skip: isNaN(parsedSkip) ? 0 : parsedSkip,
-      take: isNaN(parsedOffset) ? 3 : parsedOffset,
+      take: isNaN(parsedOffset) ? 10 : parsedOffset,
     };
 
     const products = await this.prisma.product.findMany({
