@@ -79,7 +79,11 @@ export class SalesService {
   public async findOne(saleId: number): Promise<Sale> {
     return this.prisma.sale.findUniqueOrThrow({
       where: { id: saleId },
-      include: { payments: true, orders: true, client: true },
+      include: {
+        payments: { include: { currency: true, paymentMethod: true } },
+        orders: { include: { product: true } },
+        client: true,
+      },
     });
   }
 }

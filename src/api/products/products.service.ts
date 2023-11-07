@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { Product, Prisma } from '@prisma/client';
+import { Product, Prisma, Order } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { ProductFilters, UpdateProductDto } from './products.dto';
 import { OrderWithId } from '../orders/orders.dto';
@@ -84,6 +84,19 @@ export class ProductsService {
       );
 
     return await tx.product.update({
+      where: {
+        id: order.productId,
+      },
+      data: {
+        stock: {
+          decrement: order.quantity,
+        },
+      },
+    });
+  }
+
+  async removeOrder(order: Order) {
+    return await this.prisma.product.update({
       where: {
         id: order.productId,
       },
