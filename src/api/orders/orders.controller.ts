@@ -18,7 +18,7 @@ export class OrdersController {
     description: 'Order has been successfully deleted.',
   })
   @HttpCode(204)
-  deleteClient(@Param('orderId', ParseIntPipe) orderId: number) {
+  deleteOrder(@Param('orderId', ParseIntPipe) orderId: number) {
     return this.ordersService.deleteOne(orderId);
   }
 }

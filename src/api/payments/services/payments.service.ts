@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from '../dtos/payments.dto';
 import { PrismaTransactionClient } from 'src/types';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class PaymentsService {
+  constructor(private prisma: PrismaService) {}
   public async createPayment(
     tx: PrismaTransactionClient,
     data: CreatePaymentDto,
@@ -19,5 +21,15 @@ export class PaymentsService {
     });
 
     return createdPayment;
+  }
+
+  public async deleteOne(paymentId: number) {
+    await this.prisma.order.findFirstOrThrow({
+      where: { id: paymentId },
+    });
+
+    await this.prisma.order.delete({ where: { id: paymentId } });
+
+    return;
   }
 }
